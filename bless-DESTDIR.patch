@@ -1,0 +1,19 @@
+diff -urN bless-0.2.3.orig/src/Makefile bless-0.2.3/src/Makefile
+--- bless-0.2.3.orig/src/Makefile	2004-12-20 12:11:49.202899608 +0100
++++ bless-0.2.3/src/Makefile	2004-12-20 12:13:35.791695648 +0100
+@@ -58,11 +58,11 @@
+ 	$(MCS) -t:library -r:nunit.framework -pkg:gtk-sharp $<
+ 
+ install: bless.exe 
+-	install -c -d $(PREFIX)/lib/bless
+-	install -c bless.exe $(PREFIX)/lib/bless
++	install -c -d $(DESTDIR)$(PREFIX)/lib/bless
++	install -c bless.exe $(DESTDIR)$(PREFIX)/lib/bless
+ 	echo "mono $(PREFIX)/lib/bless/bless.exe \"\$$@\"" > bless
+-	install -c -d $(PREFIX)/bin
+-	install -c bless $(PREFIX)/bin
++	install -c -d $(DESTDIR)$(PREFIX)/bin
++	install -c bless $(DESTDIR)$(PREFIX)/bin
+ 	
+ 
+ uninstall:
