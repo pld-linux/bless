@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Bless
+Comment=Hex Editor
+Comment[pl]=Edytor szesnastkowy
+Exec=bless
+Terminal=false
+Type=Application
+Categories=GTK;TextEditor;X-HexEditor;
