@@ -12,6 +12,7 @@ Patch0:		%{name}-DESTDIR.patch
 URL:		http://home.gna.org/bless/
 BuildRequires:	dotnet-gtk-sharp-devel >= 1.0
 BuildRequires:	mono-csharp >= 1.0
+BuildRequires:	mono-devel >= 1.0
 BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
