@@ -11,7 +11,10 @@ Source1:	%{name}.desktop
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-help.patch
 URL:		http://home.gna.org/bless/
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	dotnet-gtk-sharp2-devel >= 1.9.5
+BuildRequires:	libtool
 BuildRequires:	mono-csharp >= 1.1.4
 BuildRequires:	mono-devel >= 1.0
 BuildRequires:	pkgconfig
@@ -66,8 +69,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/*
 %dir %{_libdir}/%{name}-%{version}
-%{_libdir}/%{name}-%{version}/data
+%dir %{_libdir}/%{name}-%{version}/bin
 %attr(755,root,root) %{_libdir}/%{name}-%{version}/bin/*
+%{_libdir}/%{name}-%{version}/data
 %{_desktopdir}/*
 %{_omf_dest_dir}/%{name}
 %{_pixmapsdir}/*
