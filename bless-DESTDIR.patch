@@ -1,19 +1,142 @@
-diff -ur bless-0.3.1/src/Makefile bless-0.3.1.new/src/Makefile
---- bless-0.3.1/src/Makefile	2005-02-14 14:13:56.000000000 +0000
-+++ bless-0.3.1.new/src/Makefile	2005-03-03 20:53:47.563879256 +0000
-@@ -76,11 +76,11 @@
- 	$(MCS) -t:library -r:nunit.framework -pkg:gtk-sharp $<
+--- bless-0.4.0/src/Makefile.am.orig	2006-02-05 17:04:26.000000000 +0100
++++ bless-0.4.0/src/Makefile.am	2006-02-05 17:05:17.000000000 +0100
+@@ -106,10 +106,10 @@
+ 	sed -e 's,@blesslibdir\@,$(libdir),g' bless-script > bless
  
- install: bless.exe 
--	install -c -d $(PREFIX)/lib/bless/bin/
--	install -c bless.exe $(PREFIX)/lib/bless/bin/
-+	install -c -d $(DESTDIR)$(PREFIX)/lib/bless/bin/
-+	install -c bless.exe $(DESTDIR)$(PREFIX)/lib/bless/bin/
- 	echo -e "#!/bin/sh\ncd $(PREFIX)/lib/bless/bin/; mono bless.exe \"\$$@\"" > bless
--	install -c -d $(PREFIX)/bin
--	install -c bless $(PREFIX)/bin
-+	install -c -d $(DESTDIR)$(PREFIX)/bin
-+	install -c bless $(DESTDIR)$(PREFIX)/bin
- 	rm bless
+ install-exec-local: bless.exe
+-	$(INSTALL) -d $(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/bin
+-	$(INSTALL_DATA) bless.exe $(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/bin
+-	$(INSTALL) -d $(bindir)
+-	$(INSTALL_SCRIPT) bless $(bindir)
++	$(INSTALL) -d $(DESTDIR)$(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/bin
++	$(INSTALL_DATA) bless.exe $(DESTDIR)$(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/bin
++	$(INSTALL) -d $(DESTDIR)$(bindir)
++	$(INSTALL_SCRIPT) bless $(DESTDIR)$(bindir)
  
- uninstall:
+ uninstall-local:
+ 	rm -rf $(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/bin
+--- bless-0.4.0/doc/user/Makefile.am.orig	2006-02-05 17:08:51.000000000 +0100
++++ bless-0.4.0/doc/user/Makefile.am	2006-02-05 17:09:47.000000000 +0100
+@@ -22,14 +22,14 @@
+ 	cp --parents $(DOCS) $(OMF).in $(wildcard *.html) $(FIGURES) $(distdir)
+ 
+ install-data-local:
+-	$(INSTALL) -d $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user
+-	$(INSTALL) -d $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user/figures
+-	$(INSTALL_DATA) $(DOCS) $(wildcard *.html)  $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user
+-	$(INSTALL_DATA) $(FIGURES) $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user/figures
+-	$(INSTALL) -d $(datadir)/omf/$(PACKAGE_NAME)
+-	$(INSTALL_DATA) $(OMF) $(datadir)/omf/$(PACKAGE_NAME)
++	$(INSTALL) -d $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user
++	$(INSTALL) -d $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user/figures
++	$(INSTALL_DATA) $(DOCS) $(wildcard *.html)  $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user
++	$(INSTALL_DATA) $(FIGURES) $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user/figures
++	$(INSTALL) -d $(DESTDIR)$(datadir)/omf/$(PACKAGE_NAME)
++	$(INSTALL_DATA) $(OMF) $(DESTDIR)$(datadir)/omf/$(PACKAGE_NAME)
+ if WITH_SCROLLKEEPER
+-	scrollkeeper-update -o $(datadir)/omf/$(PACKAGE_NAME)
++	scrollkeeper-update -o $(DESTDIR)$(datadir)/omf/$(PACKAGE_NAME)
+ endif
+ 
+ uninstall-local:
+--- bless-0.4.0/doc/developer/Makefile.am.orig	2005-05-03 23:42:46.000000000 +0200
++++ bless-0.4.0/doc/developer/Makefile.am	2006-02-05 17:16:58.000000000 +0100
+@@ -5,8 +5,8 @@
+ 	
+ 
+ install-data-local: 
+-	$(INSTALL) -d $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/developer
+-	$(INSTALL_DATA) $(DOCS) $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/developer
++	$(INSTALL) -d $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/developer
++	$(INSTALL_DATA) $(DOCS) $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/developer
+ 
+ uninstall-local:
+ 	rm -rf $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/developer
+--- bless-0.4.0/data/Makefile.am.orig	2006-02-05 17:17:47.000000000 +0100
++++ bless-0.4.0/data/Makefile.am	2006-02-05 17:18:05.000000000 +0100
+@@ -15,16 +15,16 @@
+ 	sed -e 's,@blessdocdir\@,$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION),g' help_script.tmpl > help_script.sh.install
+ 
+ install-data-local:
+-	$(INSTALL) -d $(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/data
++	$(INSTALL) -d $(DESTDIR)$(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/data
+ 	$(INSTALL_DATA) bless-about.png bless-48x48.png bless-default.layout \
+ 	    bless-16-bytes-per-row.layout bless-all-number-bases.layout \
+ 	    default-preferences.xml \
+-	    $(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/data
+-	$(INSTALL) -d $(datadir)/applications
+-	$(INSTALL_DATA) bless.desktop $(datadir)/applications
+-	$(INSTALL) -d $(datadir)/pixmaps
+-	$(INSTALL_DATA) bless-48x48.png $(datadir)/pixmaps
+-	$(INSTALL_SCRIPT) help_script.sh.install $(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/data/help_script.sh
++	    $(DESTDIR)$(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/data
++	$(INSTALL) -d $(DESTDIR)$(datadir)/applications
++	$(INSTALL_DATA) bless.desktop $(DESTDIR)$(datadir)/applications
++	$(INSTALL) -d $(DESTDIR)$(datadir)/pixmaps
++	$(INSTALL_DATA) bless-48x48.png $(DESTDIR)$(datadir)/pixmaps
++	$(INSTALL_SCRIPT) help_script.sh.install $(DESTDIR)$(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/data/help_script.sh
+ 
+ uninstall-local:
+ 	rm -rf $(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/data
+--- bless-0.4.0/Makefile.am.orig	2006-02-05 17:25:20.000000000 +0100
++++ bless-0.4.0/Makefile.am	2006-02-05 17:25:45.000000000 +0100
+@@ -16,8 +16,7 @@
+ 	tla changelog > $(distdir)/ChangeLog
+ 
+ install-data-local:
+-	$(INSTALL) -d $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)
+-	$(INSTALL_DATA) AUTHORS COPYING INSTALL ChangeLog NEWS README README.packaging bless.spec $(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)
++	$(INSTALL) -d $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)
+ 
+ uninstall-local:
+ 	rm -rf $(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)
+--- bless-0.4.0/doc/user/Makefile.am.orig	2006-02-05 18:22:44.000000000 +0100
++++ bless-0.4.0/doc/user/Makefile.am	2006-02-05 18:24:51.000000000 +0100
+@@ -10,7 +10,7 @@
+ 
+ $(OMF): $(OMF).in
+ 	if [ -x `which scrollkeeper-preinstall` ]; then \
+-	    scrollkeeper-preinstall file:$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user/bless-manual.xml $(OMF).in $(OMF); \
++	    scrollkeeper-preinstall file:$(datadir)/gnome/help/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/C/bless-manual.xml $(OMF).in $(OMF); \
+ 	else \
+ 	    cp $(OMF).in $(OMF); \
+ 	fi
+@@ -22,10 +22,10 @@
+ 	cp --parents $(DOCS) $(OMF).in $(wildcard *.html) $(FIGURES) $(distdir)
+ 
+ install-data-local:
+-	$(INSTALL) -d $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user
+-	$(INSTALL) -d $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user/figures
+-	$(INSTALL_DATA) $(DOCS) $(wildcard *.html)  $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user
+-	$(INSTALL_DATA) $(FIGURES) $(DESTDIR)$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/user/figures
++	$(INSTALL) -d $(DESTDIR)$(datadir)/gnome/help/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/C
++	$(INSTALL) -d $(DESTDIR)$(datadir)/gnome/help/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/C/figures
++	$(INSTALL_DATA) $(DOCS) $(wildcard *.html)  $(DESTDIR)$(datadir)/gnome/help/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/C
++	$(INSTALL_DATA) $(FIGURES) $(DESTDIR)$(datadir)/gnome/help/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/C/figures
+ 	$(INSTALL) -d $(DESTDIR)$(datadir)/omf/$(PACKAGE_NAME)
+ 	$(INSTALL_DATA) $(OMF) $(DESTDIR)$(datadir)/omf/$(PACKAGE_NAME)
+ if WITH_SCROLLKEEPER
+--- bless-0.4.0/data/Makefile.am.orig	2006-02-05 18:34:02.000000000 +0100
++++ bless-0.4.0/data/Makefile.am	2006-02-05 18:34:24.000000000 +0100
+@@ -12,7 +12,7 @@
+ help_script.sh: help_script.tmpl
+ 	sed -e 's,@blessdocdir\@,$(PWD)/../doc,g' help_script.tmpl > help_script.sh
+ 	chmod +x help_script.sh
+-	sed -e 's,@blessdocdir\@,$(datadir)/doc/$(PACKAGE_NAME)-$(PACKAGE_VERSION),g' help_script.tmpl > help_script.sh.install
++	sed -e 's,@blessdocdir\@,$(datadir)/gnome/help/$(PACKAGE_NAME)-$(PACKAGE_VERSION),g' help_script.tmpl > help_script.sh.install
+ 
+ install-data-local:
+ 	$(INSTALL) -d $(DESTDIR)$(libdir)/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/data
+--- bless-0.4.0/data/help_script.tmpl.in.orig	2006-02-05 18:32:22.000000000 +0100
++++ bless-0.4.0/data/help_script.tmpl.in	2006-02-05 18:32:42.000000000 +0100
+@@ -1,8 +1,8 @@
+ #!@SHELL@
+ 
+ # Script that loads help for Bless
+-xml_help="@blessdocdir@/user/bless-manual.xml"
+-html_help="@blessdocdir@/user/index.html"
++xml_help="@blessdocdir@/C/bless-manual.xml"
++html_help="@blessdocdir@/C/index.html"
+ 
+ # try to get default browsers from GConf
+ GCONFTOOL=`which gconftool-2 2> /dev/null`

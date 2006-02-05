@@ -1,17 +1,18 @@
 Summary:	Hex Editor written in GTK#
 Summary(pl):	Edytor szesnastkowy napisany w GTK#
 Name:		bless
-Version:	0.3.1
+Version:	0.4.0
 Release:	1
 License:	GPL
 Group:		Applications/Editors
 Source0:	http://download.gna.org/bless/%{name}-%{version}.tar.gz
-# Source0-md5:	91597bacbffbd24b3ff5b19de60f7a08
+# Source0-md5:	e161996a67155303d9e6a04fa28662ca
 Source1:	%{name}.desktop
 Patch0:		%{name}-DESTDIR.patch
+Patch1:		%{name}-help.patch
 URL:		http://home.gna.org/bless/
-BuildRequires:	dotnet-gtk-sharp-devel >= 1.0
-BuildRequires:	mono-csharp >= 1.0
+BuildRequires:	dotnet-gtk-sharp2-devel >= 1.9.5
+BuildRequires:	mono-csharp >= 1.1.4
 BuildRequires:	mono-devel >= 1.0
 BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -26,9 +27,15 @@ Bless stara siê byæ szybkim i konfigurowalnym edytorem szesnastkowym
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
-%configure
+%{__libtoolize}
+%{__aclocal}
+%{__autoconf}
+%{__automake}
+%configure \
+	--without-scrollkeeper
 %{__make}
 
 %install
@@ -39,14 +46,28 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 	DESTDIR=$RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}-%{version}/data/help_script.sh $RPM_BUILD_ROOT%{_libdir}/%{name}-%{version}/bin
+
+%find_lang %{name} --all-name --with-gnome
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%post
+%scrollkeeper_update_post
+%update_desktop_database_post
+
+%postun
+%scrollkeeper_update_postun
+%update_desktop_database_postun
+
+%files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS Changelog NEWS README doc/user
+%doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/*
-%dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/*.exe
+%dir %{_libdir}/%{name}-%{version}
+%{_libdir}/%{name}-%{version}/data
+%attr(755,root,root) %{_libdir}/%{name}-%{version}/bin/*
 %{_desktopdir}/*
+%{_omf_dest_dir}/%{name}
+%{_pixmapsdir}/*

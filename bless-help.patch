@@ -1,0 +1,11 @@
+--- bless-0.4.0/src/gui/MainWindow.cs.orig	2006-02-05 17:43:42.000000000 +0100
++++ bless-0.4.0/src/gui/MainWindow.cs	2006-02-05 17:46:26.000000000 +0100
+@@ -1605,7 +1605,7 @@
+ 	public void OnHelpContents(object o, EventArgs args)
+ 	{
+ #if ENABLE_UNIX_SPECIFIC
+-		string helpScript=FileResourcePath.GetPath("..", "data", "help_script.sh");
++		string helpScript=FileResourcePath.GetPath("..", "bin", "help_script.sh");
+ 		System.Diagnostics.Process.Start(helpScript);
+ #endif
+ 	}
