@@ -10,6 +10,7 @@ Source0:	http://download.gna.org/bless/%{name}-%{version}.tar.gz
 Source1:	%{name}.desktop
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-help.patch
+Patch2:		%{name}-buildfixes.patch
 URL:		http://home.gna.org/bless/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -18,6 +19,7 @@ BuildRequires:	libtool
 BuildRequires:	mono-csharp >= 1.1.4
 BuildRequires:	mono-devel >= 1.0
 BuildRequires:	pkgconfig
+BuildRequires:	scrollkeeper
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -31,6 +33,7 @@ Bless stara siê byæ szybkim i konfigurowalnym edytorem szesnastkowym
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
