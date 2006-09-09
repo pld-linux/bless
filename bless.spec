@@ -20,6 +20,7 @@ BuildRequires:	mono-csharp >= 1.1.4
 BuildRequires:	mono-devel >= 1.0
 BuildRequires:	pkgconfig
 BuildRequires:	scrollkeeper
+Requires(post,postun):	desktop-file-utils
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
