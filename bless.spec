@@ -1,16 +1,16 @@
 Summary:	Hex Editor written in GTK#
 Summary(pl):	Edytor szesnastkowy napisany w GTK#
 Name:		bless
-Version:	0.4.0
+Version:	0.4.1
 Release:	1
 License:	GPL
 Group:		Applications/Editors
 Source0:	http://download.gna.org/bless/%{name}-%{version}.tar.gz
-# Source0-md5:	e161996a67155303d9e6a04fa28662ca
+# Source0-md5:	a3551ebecda11b115e98608894f5c0ec
 Source1:	%{name}.desktop
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-help.patch
-Patch2:		%{name}-buildfixes.patch
+Patch2:		%{name}-glyphs_overlap.patch
 URL:		http://home.gna.org/bless/
 BuildRequires:	autoconf
 BuildRequires:	automake

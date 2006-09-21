@@ -1,0 +1,30 @@
+--- bless-0.4.1/src/gui/drawers/Drawer.cs.orig	2006-09-21 17:31:58.000000000 +0200
++++ bless-0.4.1/src/gui/drawers/Drawer.cs	2006-09-21 17:33:33.000000000 +0200
+@@ -179,20 +179,13 @@
+ 		Pango.Context pangoCtx=widget.PangoContext;
+ 		Pango.FontMetrics fm=pangoCtx.GetMetrics(fontDescription, lang);
+ 		
+-		// set the font height and width
+-		height =(int)( (fm.Ascent+fm.Descent)/Pango.Scale.PangoScale);
+-		width =(int) ((fm.ApproximateCharWidth)/Pango.Scale.PangoScale);
+-		
+-		// temporary workaround for font width problem
+-		int fontWidthFix;
+-		try {
+-			 fontWidthFix = Convert.ToInt32(Preferences.Instance["FontWidthFix"]);
+-		}
+-		catch (Exception e) {
+-			fontWidthFix = 0;
+-		}
+-		
+-		width += fontWidthFix;
++		// set the font height and width		
++		// BUGFIX:
++		Pango.Layout layout = new Pango.Layout(pangoCtx);
++		layout.FontDescription = fontDescription;
++		layout.SetText("A"); // check for a single character
++		layout.GetPixelSize(out width, out height);
++		// END OF FIX
+ 		
+ 		// create the font pixmaps
+ 		InitializePixmaps();
