@@ -76,6 +76,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}-%{version}/bin
 %attr(755,root,root) %{_libdir}/%{name}-%{version}/bin/*
 %{_libdir}/%{name}-%{version}/data
-%{_desktopdir}/*
+%{_desktopdir}/*.desktop
 %{_omf_dest_dir}/%{name}
 %{_pixmapsdir}/*
