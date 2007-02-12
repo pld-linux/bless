@@ -1,5 +1,5 @@
 Summary:	Hex Editor written in GTK#
-Summary(pl):	Edytor szesnastkowy napisany w GTK#
+Summary(pl.UTF-8):   Edytor szesnastkowy napisany w GTK#
 Name:		bless
 Version:	0.4.1
 Release:	1
@@ -26,8 +26,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Bless aims to be a fast and customizable hex (binary) editor.
 
-%description -l pl
-Bless stara siê byæ szybkim i konfigurowalnym edytorem szesnastkowym
+%description -l pl.UTF-8
+Bless stara siÄ™ byÄ‡ szybkim i konfigurowalnym edytorem szesnastkowym
 (binarnym).
 
 %prep
