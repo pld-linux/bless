@@ -1,5 +1,5 @@
 Summary:	Hex Editor written in GTK#
-Summary(pl.UTF-8):   Edytor szesnastkowy napisany w GTK#
+Summary(pl.UTF-8):	Edytor szesnastkowy napisany w GTK#
 Name:		bless
 Version:	0.4.1
 Release:	1
